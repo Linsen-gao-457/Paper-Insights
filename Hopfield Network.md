@@ -1,5 +1,14 @@
-# Hopfield Network
+---
+toc:
+  depth_from: 1     # include from H1
+  depth_to: 2      
+  ordered: true     # numbered list instead of bullets
+---
+[TOC]
 
+
+
+# Hopfield Network
 📕 [paper link](https://pmc.ncbi.nlm.nih.gov/articles/PMC346238/)
 
 **Goal**: we aim to design a system which implements a contend-addressable memories using a large number of simple components, and exhibits some collective properties such as generalization, familiarity recognization, categorization, eror correction, and time sequence.
@@ -12,43 +21,86 @@ Hopfield Network is a information storage system which have 2 functions:
 
 
 
-
-
-## Write Function
-
-### the model system and updated rules
+# Write Function
 
 The instaneous state of the system is a Vector $V = (v_1, v_2, v_3, ...v_N)$, for $i \in \{1, ...N\}$, $v_i$ is a neuron with 2 states $v_i \in \{0, 1\}$.
 
-Then We define stength of connection $T_{ij}$(for $i,j \in \{1...N\}$) as the synaptic weight representing the strength of the connection from neuron $v_i$ to neuron $v_j$. 
+Let $V^1, V^2, \dots, V^n$ be colum vectors in $\{0,1\}^N \subset R^N$
 
-After that we define the algorithm to update the state of neuron $v_i$:
+Let $T$ be a $N \times N$ matrice. Here, $T_{ij}$(for $i,j \in \{1...N\}$) as the synaptic weight representing the strength of the connection from neuron $v_i$ to neuron $v_j$. 
 
-$$
-v_i = 
-\begin{cases}
-1, & \text{if } \displaystyle\sum_{j \ne i} T_{ij} v_j > U_i, \\\\[8pt]
-0, & \text{if } \displaystyle\sum_{j \ne i} T_{ij} v_j < U_i.
-\end{cases}\tag{1}
-$$
-> Unless otherwise stated, we choose $U_i =0$
+$$T = \sum_{s=1}^n (2V^s - 1)(2V^s - 1)^{\top} \tag{1}$$
 
-### the information storage algorithm
 
-Suppose we want to store the set of stats $V^s$(for $s\in \{1...n\}$), following the storage prescription, but with $T_{ii} = 0$:
-
-$$T_{ij} = \sum _s (2 v_i ^s -1)(2 v_j ^s  - 1)$$
+<a id="Strength Matrice"></a>
 
 > We are not directly writing the stored pattern into neurons - we are setting up a landscape in which that pattern become a statble points.
 
+> $T_{ii}=0$
+---
+After that we define the function $A_i(V)$ to update the state of neuron $v_i$:
+
+Let $A_i(V)$ be a function mapping from $R^N \rightarrow R$, defined by 
+
+$$
+A_i(V) = 
+\begin{cases}
+1, & \text{if } \displaystyle\sum_{j \ne i} T_{ij} v_j > U_i \quad \text{or} \ <T_i,V>-T_{ii}V_i \geq U_i, 
+\\\\[8pt]
+0, & \text{if } \displaystyle\sum_{j \ne i} T_{ij} v_j < U_i \quad \text{or} \ <T_i,V>-T_{ii}V_i \leq U_i.
+\end{cases}\tag{2}
+$$
+> Unless otherwise stated, we choose $U_i =0$
+
+> $A_i : R^N \rightarrow R$ depends only on $T_i$
+
+---
+
+**Thm** Update neurons rules
+
+For any $S = 1,2, \dots n$, any $i = 1,2,\dots N$
+
+$$V_i^s = A_i(V^s) \tag{3}$$
+
+Define energy function $E: R^N \rightarrow R^+$ as follow:
+
+$$E(V) = \frac 1 2 V^TTV \qquad\forall V\in R^N\tag{4}$$
+
+---
+**Thm** Energy decreasing rule
+
+for any $V\in R^N$, let $V^{'} \in R^N$, such that 
+$$
+\begin{cases}
+v_j^{'} =v_j, &\text{if } j\neq i
+\\\\[8pt]
+v_i^{'} = A_i(V)
+\end{cases}
+$$
+
+$E(V^{'}) - E(V)\leq 0$ always hold
+
+---
+##### Proof:
+
+When $v_i$ changes by $\Delta v_i$, the corresponding change in energy is $$\Delta E = - \Delta v_i \sum _{j \neq i }T_{ij}v_j\tag{5}$$
+
+Let $h_i = \sum _{j \neq i }T_{ij}v_j$,
+
+If $h_i > 0$, $\Delta v_i = +1$; If $h_i <0$, $\Delta v_i = -1$. Thus $\Delta E < 0$ holds for every formula.
+
+We give an input $V_0$, the energy will converge to a minima(a stored pattern $V^s$)
+
 From this definition, we can know that $s' = s$, $v_i ^{s'}$ is stable and correspond to $V_i ^{s}$(we don't consider the noise from $s\neq s'$ terms), otherwise $v_i = 0$
 
+---
+#### From biology perspectives to prove our math setting is correct
 $$v_i =\sum _s T_{ij}v_j^{s} \thickapprox (2 v_i^{s} -1) \frac N 2$$
 
 Learning Algorithm to learn matrice $T_{ij}$. 
 
 $$
-\Delta T_{ij} = [v_i(t) v_j(t)]_{\text{average}} \tag{2}
+\Delta T_{ij} = [v_i(t) v_j(t)]_{\text{average}} \tag{6}
 $$
 
 Let's discuss how does the initial stored synaptic strength envolve to the final stroed synaptic strength.
@@ -58,25 +110,22 @@ We have $\Delta T_{ij} = [v_i(t) v_j(t)]_{average}$, so $T_{ij}$ is not fixed - 
 
 When the network is exposed to a specific pattern $V^s$, we get $\Delta T_{ij}^{(s)} = [v^s_iv^s_j]_{average}$. Finally we get $T_{ij} = \sum _{s=1} ^n \Delta T_{ij} ^s = \sum _{s=1} ^n [v_i^s v_j^s]_{average}$
 
-For the last step, we change the voltage from 0, 1 to -1 and 1. Then we get $$T_{ij} = \sum _s (2 v_i ^s -1)(2 v_j ^s  - 1)\tag{3}$$
+For the last step, we change the voltage from 0, 1 to -1 and 1. Then we get $$T_{ij} = \sum _s (2 v_i ^s -1)(2 v_j ^s  - 1)\tag{7}$$
 
 
-Thus we prove that (3) hodls from biology aspects.
+Thus, from a biological perspective, we recover [Strength Matrice](#Strength Matrice).
 
  
-## Read Function
+# Read Function
 
-**Consider the special case $T_{ij} = T_{ji}$**, we define the energy function $$E = \frac 1 2 \sum \sum _ {i\neq j} T_{ij} v_i v_j\tag{4}$$
+1. Capacity
+2. Guranteed we can fech the right pattern(distance to define)
 
-> Altering V causes E to be monotonically decreasing function
 
-When $v_i$ changes by $\Delta v_i$, the corresponding change in energy is $$\Delta E = - \Delta v_i \sum _{j \neq i }T_{ij}v_j\tag{5}$$
 
-Let $h_i = \sum _{j \neq i }T_{ij}v_j$,
 
-If $h_i > 0$, $\Delta v_i = +1$; If $h_i <0$, $\Delta v_i = -1$. Thus $\Delta E < 0$ holds for every formula.
 
-We give an input $V_0$, the energy will converge to a minima(a stored pattern $V^s$)
+# Other properties
 
 **Consider the case where $T_{ij}$ is not symetric**. There are 3 results
 
@@ -120,8 +169,6 @@ $H_i^s = signal + noise$
 
 We want $signal =\frac N 2 > noise =\sigma$, solve this function we get $n <0.15N$.
 
-
-## Other properties
 ### Genelization, Familiarity Recognition
 
 Genelization happens when the memory is overloaded. 
@@ -138,6 +185,6 @@ close hamming distance? when talk about asymetric $T_{ij}$
 If we store a memory with length k less than N. we can determine the rest of neuron based on correlations
 
 
-### time sequence in nonsymmetric weight
+### Time sequence in nonsymmetric weight
 
 Sequences longer than four states proved impossible to generate, and even these were not faithfully followed.
