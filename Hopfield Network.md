@@ -113,7 +113,7 @@ When the network is exposed to a specific pattern $V^s$, we get $\Delta T_{ij}^{
 For the last step, we change the voltage from 0, 1 to -1 and 1. Then we get $$T_{ij} = \sum _s (2 v_i ^s -1)(2 v_j ^s  - 1)\tag{7}$$
 
 
-Thus, from a biological perspective, we recover [Strength Matrice](#Strength Matrice).
+Thus, from a biological perspective, we recover [Strength Matrice](#hopfield-network).
 
  
 # Read Function
