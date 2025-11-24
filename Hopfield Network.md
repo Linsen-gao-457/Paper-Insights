@@ -66,6 +66,11 @@ Define energy function $E: R^N \rightarrow R^+$ as follow:
 
 $$E(V) = \frac 1 2 V^TTV \qquad\forall V\in R^N\tag{4}$$
 
+==new idea==: 
+Define energy function $E: (R^N; R^{N\times N}) \rightarrow R^+$ also we can write it as fellow, $V \mapsto E(V;T)$:
+
+$$E(V;T) = \frac 1 2 V^TTV \qquad\forall V\in R^N$$
+
 ---
 **Thm** Energy decreasing rule
 
