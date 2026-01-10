@@ -71,6 +71,23 @@ Define energy function $E: (R^N; R^{N\times N}) \rightarrow R^+$ also we can wri
 
 $$E(V;T) = \frac 1 2 V^TTV \qquad\forall V\in R^N$$
 
+Capacity Thm
+
+Input to a neuron
+
+ $Z = <T_{i}, V^{s'}> \overset {T_{ii} =0 }= \sum_s(2V_i^{s} - 1)[\sum_j V_j^{s'}(2V_j^s-1)]$ 
+ 
+$ = \underbrace {(2V_i^{s'} - 1)[\sum_j V_j^{s'}(2V_j^{s'}-1)]}_{Siganl} + \sum_{s\neq s'}\underbrace {(2V_i^{s} - 1)[\sum_j V_j^{s'}(2V_j^s-1)]}_{Noise}$
+
+Based on Central limit theorem, we can get 
+
+$Z \sim N(0,\frac {nN}2)$
+
+The amplitude of Signal is $|\frac N 2|$
+So probability of the bit error in memory $P_{bit} = P[Z > \frac N 2]$
+Errors happen in one state $E[Errors] = N\times P_{bit}=1 $
+Thus we found that $n = 0.15N$
+
 ---
 **Thm** Energy decreasing rule
 
