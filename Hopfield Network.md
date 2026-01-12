@@ -181,7 +181,8 @@ $$
 
 How do we get that the network can store about 0.15N patterns befroe error in retrival process is severe.
 
-$$H_i^s = \sum _{j\neq i} T_{ij}V_j^s =\underbrace{ \sum _{s' =1}^n V_i^{s'}V_j^{s'}V_j^s}_{T_{ij} =V_i^{s'}V_j^{s'}} = \underbrace{V_i^s \sum _{i\neq j} V_i^s (V_j^s)^2}_{\text{signal term when s = s'}}+\underbrace {\sum_{s' \neq s} V_i^{s'}V_j^{s'}V_j^s}_{\text{noise when s}\neq \text{s'}} \tag7$$
+$$H_i^s = \sum _{j\neq i} T_{ij}V_j^s =\underbrace{ \sum _{s' =1}^n V_i^{s'}V_j^{s'}V_j^s}_{T_{ij} =V_i^{s'}V_j^{s'}} = \underbrace{V_i^s \sum _{i\neq j} (V_j^s)^2}_{\text{signal term when s = s'}}+\underbrace {\sum_{s' \neq s} V_i^{s'}V_j^{s'}V_j^s}_{\text{noise when s}\neq \text{s'}} \tag7$$
+
 signal term: $H_i^s = V_i^s * \frac 1 2N$
 
 
