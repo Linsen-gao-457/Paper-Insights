@@ -16,8 +16,6 @@ We define the energy function
 $$E(\sigma; \mathcal {\bar M}) = -\sum _{\mu=1}^K F(\xi^\mu \cdot\sigma) \tag{1}$$
 > $F$ is a function defining energy function
 
-==Energy or energy function? $E \text{ or } F$==
-
 ### Update function
 
 Def a single-step update function $T:R^N\rightarrow R^N$
