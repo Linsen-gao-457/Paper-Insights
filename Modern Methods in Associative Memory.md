@@ -33,16 +33,31 @@ Def $T^n: R^N\rightarrow R^N$, $\underbrace {T^n(\sigma)=T(T(\dots T(\sigma)))))
 
 When n =$ +\infty$, $T^{\infty}(\sigma) = \lim_{n \to \infty} T^n(\sigma)$
 
-All in all $(\mathcal M,E,T)$ specifies an DAM with $\mathcal M$
+All in all, $(\mathcal M,E,T)$ specifies an DAM with $\mathcal M$
 
 
 ### Information Storage Capacity
-We wanna find the largest value of $K^{max}$ that allows retrieve the memory successfully.
-> $K^{max}$ will depend on the specific choices for the stored memories. 
+Here we want to use a strict math language to define capacity:
+def given $\sigma ^{(0)}=f(\xi_i, \bar Z)$, there exist a maxmimal $K$, naming $K^{max}$, satisfying $Pr(\xi_i=T^\infty (\sigma^{(0)})) \ge \beta$. We call this capacity $\alpha - \beta$ capcity.
 
-Here we want to use a strict math language to define this:
-
-
+>$\bar Z$ is a random vector with N dimension, and for each dimension, think $X = \sigma^t_i$, $Y = \sigma ^{(t+1)}_i$, $Z \sim Ber(\alpha)$
+>$$
+Y = 
+\begin{cases}
+X, Z = 1\\
+-X, Z = 0
+\end{cases}\overset {\text{depends on how } Z \text{ is defined}}{=}(-1)^Z X
+$$
+We can also use another way to formulate this
+$$
+Y = 
+\begin{cases}
+X, \text{with probabilty }\alpha\\
+-X, \text{with probabilty }1-\alpha
+\end{cases}
+$$
+> $f$ is a function which can add noise to the original signal. $\bar Z$ is a random vector 
+> $K^{max}$ depends on the specific choices for the stored memories, how to add noise $f$ and $\bar Z$, the torerance rate $\beta$
 
 We assume that the patterns are drawn at random following the distribution below:
 
