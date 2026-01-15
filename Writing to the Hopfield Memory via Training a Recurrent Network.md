@@ -35,10 +35,25 @@ cons:
 1. Lose all appealing properties of classic hopfield network
 
 ### MPF(Minimun probability flow)
-$$\min K(W)= \sum_{m=1}^M\sum_{x'\in \mathcal N(x^m)}\exp (\frac {E(\mathbf x^m)-E(\mathbf x')}{2})$$
+$$\min K(W)= \sum_{m=1}^M\sum_{x'\in \mathcal N(x^m)}\exp (\frac {E(\mathbf x^m)-E(\mathbf x')}{2}) \tag 3$$
 > $\mathcal N(x)$ is the set of state vectors within Hamming distance one from $\mathbf x$ and $E$
 
 Pros:
 1. Keep the appealing properties of HN
 2. Shape the region around such local minima so that no state within Hamming distance one from a message attains the same energy level as the message(Assuming the distance between any two message in $\mathcal M$ is larger than two)
 
+### TRN 
+
+Think of writting to a HN as training a recurrent neural network. A input sequence $\mathbf u = (\mathbf u^1, \dots, \mathbf u^L)$ and a output sequence $\mathbf y= (\mathbf y^1, \dots, \mathbf y^L)$. $s\in \{\pm 1\}^N$
+
+$$\mathbf s^t = f(s^{t-1}, \mathbf u ^t)$$
+
+$$\mathbf y^t = g (s^t, \mathbf u^t)$$
+
+$$\mathbf s^t = \tanh (W\mathbf s^{t-1} + U\mathbf u^t + b)$$
+
+Loss function
+
+$$D(W)=\sum _{m=1}\sum_{k=1} \|\xi ^m - f_W^L(Wp^{m,k})\|^2$$
+
+> Given a set of message $\mathcal M = \{\mathbf x^1, \dots, \mathbf x^M\}$, a training set can be constructed as $\{(\mathbf x^1, \mathbf p^{1,k}),\dots, (\mathbf x ^M, \mathbf p^{M,k})\}$. For each message, we generate K query.
