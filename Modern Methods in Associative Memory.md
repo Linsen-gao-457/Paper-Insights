@@ -36,7 +36,7 @@ All in all, $(\mathcal M,E,T)$ specifies an DAM with $\mathcal M$
 
 ### Information Storage Capacity
 Here we want to use a strict math language to define capacity:
-def given $\sigma ^{(0)}=f(\xi_i, \bar Z)$, there exist a maxmimal $K$, naming $K^{max}$, satisfying $Pr(\xi_i=T^\infty (\sigma^{(0)})) \ge \beta$. We call this capacity $\alpha - \beta$ capcity.
+def given $\sigma ^{(0)}=f(\xi_i, \bar Z)$, there exist a maxmimal $K$, naming $K^{max}$, satisfying $Pr(\xi_i=T^\infty (\sigma^{(0)})) \ge \beta$. We call $K^{max}$, capacity $\alpha - \beta$ capcity.
 
 >$\bar Z$ is a random vector with N dimension, and for each dimension, think $X = \sigma^t_i$, $Y = \sigma ^{(t+1)}_i$, $Z \sim Ber(\alpha)$ indenepdnent of $X$
 >$$
