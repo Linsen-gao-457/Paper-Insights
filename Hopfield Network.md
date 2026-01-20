@@ -85,8 +85,15 @@ $Z \sim N(0,\frac {nN}2)$
 
 The amplitude of Signal is $|\frac N 2|$
 So probability of the bit error in memory $P_{bit} = P[Z > \frac N 2]$
+
 Errors happen in one state $E[Errors] = N\times P_{bit}=1 $
 Thus we found that $n = 0.15N$
+Proof:
+Consider $V_j^{s'}\in \{0,1\}$ and $x_j^s \in \{-1,1\}$
+$E(V_j^{s'}x_j^s)=0$, $Var(V_j^{s'}x_j^s)=0.5$
+$\sum_j V_j^{s'}x_j^s \underbrace {\sim}_{i.i.d}\mathcal N(0,\frac n 2)$
+
+We times $(2V_i^s -1)$ before $\mathcal N(0,\frac n 2)$, which does not change the distribution, thus we get $Z \sim N(0,\frac {nN} 2)$
 
 ---
 **Thm** Energy decreasing rule
