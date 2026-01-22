@@ -15,10 +15,9 @@ presentation:
 
 
 <!-- slide -->
-Goal: we aim to design a system which implements a contend-addressable memories using a large number of simple components, and exhibits some collective properties such as generalization, familiarity recognization, categorization, eror correction, and time sequence.
+What is associate memory at high level?
 
-
-
+![alt text](Image/Associate%20Memory.png)
 
 <!-- slide -->
 
@@ -39,100 +38,107 @@ Hopfield Network is a information storage system which have 2 functions:
 <!-- slide -->
 #### Some Definitions
 
-Def The ==instaneous state== of the system is a Vector $V = (v_1, v_2, v_3, ...v_N)$, for $i \in \{1, ...N\}$, $v_i$ is a neuron with 2 states $v_i \in \{0, 1\}$.
+Def The ==instaneous state== of the system is a Vector $\sigma = (\sigma_1, \sigma_2, \sigma_3, ...\sigma_N)$, for $i \in \{1, ...N\}$, $\sigma_i$ is a neuron with 2 states $\sigma_i \in \{0, 1\}$.
 
-Def ==message== $\mathcal M =\{V^1, V^2, \dots, V^n\}$ be colum vectors in $\{0,1\}^N \subset \{\pm 1\}^N$
+Def ==message== $\mathcal M =\{\xi^1, \xi^2, \dots, \xi^n\}$ be colum vectors in $\{0,1\}^N \subset \{\pm 1\}^N$
 <!-- slide -->
 
 
-Def ==connection strength== $T$ be a $N \times N$ matrice. Here, $T_{ij}$(for $i,j \in \{1...N\}$) as the synaptic weight representing the strength of the connection from neuron $v_i$ to neuron $v_j$. 
+Def ==connection strength== $W$ be a $N \times N$ matrice.
 
-$$ T = \sum_{s=1}^n (2V^s - 1)(2V^s - 1)^{\top} \tag{1}$$
+$$ W = \sum_{s=1}^n (2\xi^s - 1)(2\xi^s - 1)^{\top} \tag{1}$$
 <!-- slide -->
 
-$$\scriptstyle T = \sum_{s=1}^n (2V^s - 1)(2V^s - 1)^{\top} \tag{1}$$
-- Distributed Representation: every time we write a new message, we make a small modification of the connnection strength
-<a id="Strength Matrice"></a>
-- We are not directly writing the stored pattern into neurons - we are setting up a landscape in which that pattern become a statble points
-
-- $T_{ii}=0$
+$$\scriptstyle W = \sum_{s=1}^n (2\xi^s - 1)(2\xi^s - 1)^{\top} \tag{1}$$
+- Distributed Representation
+- Set up a landscape where message become a statble points
+- $W_{ii}=0$
 <!-- slide -->
 
-After that we define ==single-step update function== $\mathcal U(V)$ to update the state Vector $V^{(t)}$:
+After that we define ==single-step update function== $T(\sigma)$ to update the state Vector $\sigma$:
 
-$$\mathcal U (V^{(t)};T):=sign(T V^{(t)})=V^{(t+1)} \tag{2}$$
-
-Let $A(V)$ be a function to update per neuron mapping from $R^N \rightarrow R$, defined by 
+$$T (\sigma;W):=sign(W\sigma) \tag{2}$$
+<!-- slide -->
+Let $T_j(\sigma)$, where $j\in \{1,\dots,N\}$, be a function to update per neuron mapping from $R^N \rightarrow R$, defined by 
 
 $$
 {\scriptstyle
-A_i(V)=
+T_j(\sigma)=
 \begin{cases}
-1, & \text{if }\ \langle T_i,V\rangle-T_{ii}V_i\ge U_i,\\[4pt]
-0, & \text{if }\ \langle T_i,V\rangle-T_{ii}V_i\le U_i.
+1, & \text{if }\ W_j\sigma -W_{jj}\sigma_i> U,\\[4pt]
+0, & \text{if }\ W_j\sigma -W_{jj}\sigma_i\le U.
 \end{cases}}
 $$
+- Unless otherwise stated, we choose $U =0$
 
 <!-- slide -->
-
-$$
-{\scriptstyle
-A_i(V)=
+$${\scriptstyle
+T_j(\sigma)=
 \begin{cases}
-1, & \text{if }\ \langle T_i,V\rangle-T_{ii}V_i\ge U_i,\\[4pt]
-0, & \text{if }\ \langle T_i,V\rangle-T_{ii}V_i\le U_i.
+1, & \text{if }\ W_j\sigma -W_{jj}\sigma_i> U,\\[4pt]
+0, & \text{if }\ W_j\sigma -W_{jj}\sigma_i\le U.
 \end{cases}}
 $$
-> Unless otherwise stated, we choose $U_i =0$
+- $W_j$ is the $j$ th row of $W$
+$$W_j = \sum_{s=1}^N (2\xi_j^s-1)(2\xi^s -1)^{\top}$$
+- $T_j$ is parametrized only by $W_j$
+- $T$ is parametrized only by $W$
+<!-- slide -->
+ $W_j$ is the $j$ th row of $W$, if $W_{jj} =0$, we get
 
-> $A_i : R^N \rightarrow R$ depends only on $T_i$
-
+ $$T_j(\sigma) = sign(W_j \sigma)$$
 <!-- slide -->
 Def ==multi-step update function==
 
-$$\mathcal U^n: \{-1,1\}^N \rightarrow\{-1,1\}^N $$
+$$T^n: \{-1,1\}^N \rightarrow\{-1,1\}^N $$
 
-$$\mathcal U^n(V;T) = \underbrace {\mathcal U(\mathcal U(\dots \mathcal U(V))\dots)} _{\text{n times}} \tag{3}$$
+$$T^n(\sigma;W) = \underbrace {T(T(\dots  T(\sigma))\dots)} _{\text{n times}} \tag{3}$$
 > When $n=\infty$ ,  
-$\mathcal U ^{\infty}(V)= \lim _{n\rightarrow \infty} \mathcal U^n(V)$
+$T ^{\infty}(\sigma)= \lim _{n\rightarrow \infty} T^n(V)$
 
 <!-- slide -->
 Define ==energy function== $E: R^N \rightarrow R^+$ as follow:
 
-$$E(V;T) = \frac 1 2 V^TTV \qquad\forall V\in R^N\tag{4}$$
-
+$$E(\sigma;W) = \frac 1 2 \sigma^\top W\sigma \qquad\forall V\in R^N\tag{4}$$
+- $\xi^i$, $i\in \{1,\dots,n\}$ is local minima of energy function
 <!-- slide -->
-**Thm** ==Energy decreasing rule==
+**Thm** ==Energy decreasing Theorem==
 
-for any $V\in R^N$, let $V^{'} \in R^N$, such that 
+for any $\sigma \in R^N$, let $\sigma^{'} \in R^N$, such that 
 $$
-\begin{cases}
-v_j^{'} =v_j, &\text{if } j\neq i
-\\\\[8pt]
-v_i^{'} = A_i(V)
-\end{cases}
+\sigma ' = T(\sigma)
 $$
 
-$E(V^{'}) - E(V)\leq 0$ always hold
+$E(\sigma^{'}) - E(\sigma)\leq 0$ always hold
+
 
 <!-- slide -->
+
 #### All in ALl
 
-$\mathcal M$ specifies Hopfield Network, because $\{E, \mathcal U\}$ are parametrized by $\mathcal M$
+$\mathcal M$ specifies Hopfield Network, because $\{E, T\}$ are parametrized by $\mathcal M$
 
 
 <!-- slide -->
 ### Read-Retrieve Information
 
 <!-- slide -->
-Idealy, initialize a state Vector $V^{(0)} = f(V^i, Z)$, if $\mathcal U^\infty (V_0) = V^i$, we say we successfully retrive the message.
-> $Z$ is a random vector in $R^N$. Think it as a noise form
-> $f$ is a noise function to add noise Z to the original message $V^i$
-
+Initialize a state Vector $\sigma^{(0)}$, idealy $T^\infty (\sigma^{(0)}) = \xi_i$, where $i \in \{1,\dots, n\}$
+- What $\xi_i$ do we get?
+- How far is $\sigma^{(0)}$ away from $\xi_i$
+<!-- slide -->
+![Energy Minimization](Image/Energy%20Minimization.png)
 
 <!-- slide -->
 ### Capacity
 
 <!-- slide -->
-Give $V^{(0)} = f(V^i, Z)$, there exists a maximal number $K$, satisfying $Pr(\mathcal U^\infty (V_0) = V^i) \ge \beta$, we call this capacity $Z-\beta$ capacity.
+- $\xi^i \in \mathcal M=\{\xi^1,\dots,\xi^K\}$ is a random vector with N dimensions. For $j\in \{1,\dots,N\}$, $\{\xi_j^i \sim Ber(0.5)\}$ which are independent.
+
+- Capacity is the maximum number $K$ of messages a Hopfield Network can store, s.t. for $i\in \{1,\dots, K\}, j\in \{1,\dots, N\}$, $Pr\{T_j(\xi^i)\ne \xi^i_j\}\le \alpha$. Denoted by $C_\alpha$
+<!-- slide -->
+#### TL;DR
+Content-addressable information storage systems capable of error correction
+<!-- slide -->
+# Thank you!
 <!-- slide -->
