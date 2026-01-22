@@ -19,6 +19,7 @@ Def **Distributed Representation**: $n_i$, $i \in \{1,\dots, k\}$, can be repres
 |----------|----------|----------|
 | Pros | Intuitive: Structure similar to knowledge  | Efficient|
 | Cons | Hard to express componential structure  | Hard to store a large set of arbitary associations|
+> Componential structure means that a concept, object, or piece of knowledge is systematically composed of reusable parts, and that meaning depends on how those parts are combined.
 
 # Virtues of Distributed System
 ## Constructive Character(Memory as Inference)
@@ -41,10 +42,10 @@ Def A confabulation/plausible reconstruction is a pattern that is stable because
 ## Generalization
 When writing some information into distributed representation network(we call see it as small modification of a large bunches of computing units), there is only two possible way
 1. For perfect related pattern, the total help for the intended pattern will be the sum of the small modifications of all previous writen patterns.
-2. For unrelated patterns, all the small modifications will mainly cancle out.
+2. For unrelated patterns, all the small modifications will mainly cancel out.
 
 Solution:
-Using orthogonal pattern, but it will eliminated the most interesting properties of distributed representations - generalizations.
+Using orthogonal pattern, but it will eliminated the most interesting properties of distributed representations - generalizations. So that's the reason we use distributed representation.
 
 Let us dive into Generalization.
 
@@ -86,5 +87,6 @@ When introduing a new concept into a distributed representation system. We want 
 The central problem is to specify the exact procedures where distributed representations are to be learned to optimize a system yielding stable. generalizable properties.
 
 # Efficiency of Distributed System
+
 
 # Difficult Issues Solved by Distributed System
