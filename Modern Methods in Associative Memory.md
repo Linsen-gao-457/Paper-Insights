@@ -97,7 +97,7 @@ $$Var(\text{Noise})=(2n-3)!!KD^{n-1}$$
 We tolerate $P_{error} <\alpha$, thus we get $K < K^{max} = \frac 1 {\alpha ^2(2n=3)!!}D^{n-1}$
 
 ---
-
+#### Building Blocks of AMs with Modular Energies
 General Dense AM - HAMUX
 1. discrete $\rightarrow$ continuous
 2. The structure of energy function is too simple: no hierarchy and too rigid
@@ -106,21 +106,33 @@ We design a modular energy.
 
 HAMUX is more fundamental than its specific software implement($\text {pytorch}\leftrightarrow \text{autograd}$)
 
-Def Node is a non-linear function( aka activation function) $\hat x = f(x)$, where activations $\hat x$ and pre-activation $x$.
+Def **neuron layer(Node)** is a non-linear function( aka activation function) $\hat x = f(x)$, where activations $\hat x$ and pre-activation $x$.
 
-Def Edge is a parameterized energy function that captures how similar or aligned the activations of its connected neuron layers are. 
-> We can design different synptic energies that can determine what kind of relationship between the activations of connected nodes is enforcing: 
+Def **hypersynapse(Edge)** is a parameterized energy function that captures how similar or aligned the activations of its connected neuron layers are. 
+> We can design different synptic energies that can determine what kind of relationship between the activations of connected nodes is enforcing:Conv, Pooling, or even attention. 
 
-For a system of $L$ nodes and $S$ edges, the energy function of the system is
+For a system of $L$ neuron layers and $S$ hypersynapses, the energy function of the system is
 
-$$E_{total} = \sum_{l=1}^L E^{node}_l + \sum_{s=1}^SE_s^{edge} \tag 5$$
+$$E_{total} = \sum_{l=1}^L E^{neuron layer}_l + \sum_{s=1}^SE_s^{synapse} \tag 5$$
 
 Update Rule
 
 Let ${\mathbf {\hat x_\ell}}$ and $\mathbf x_\ell$ represent the activations and internal states of node $\ell$, and let $N(\ell)$ represents the set of edge that connect to node $\ell$. 
 
-$$\mathcal{T}_\ell  \frac {d\mathbf{x}} 2 = - \frac  {\partial E_s^{edge}} {\partial {\mathbf {\hat x_\ell}}}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})-\frac {\partial E^{node}_\ell}{\partial {\mathbf {\hat x_\ell}}} = \mathcal I_{x_\ell}-\mathbf x_\ell $$
+$$\mathcal{T}_\ell  \frac {d\mathbf{x}} {dt} = - \frac  {\partial E_s^{edge}} {\partial {\mathbf {\hat x_\ell}}}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})-\frac {\partial E^{node}_\ell}{\partial {\mathbf {\hat x_\ell}}} = \mathcal I_{x_\ell}-\mathbf x_\ell $$
 > Time constant for node in layer i is denoted by $\mathcal T_\ell$
->$\mathcal I_{x_\ell}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})$
-> when the activations ${\mathbf {\hat x_\ell}}$ are bounded, the above system is guaranteed to converge for any choice of edge energy(???)
+>$\mathcal I_{x_\ell}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})$ is the total synaptic input current to neuron layer $\ell$
+> when the activations ${\mathbf {\hat x_\ell}}$ are bounded, the above system is guaranteed to converge for any choice of hypersynapse energies.
 
+
+#### Dynamical Neurons and their Lagrangains
+Activation Function
+$$\hat{x} = \nabla \mathcal{L}_x(x)$$
+Dual Energy
+$$E_x(\hat{x}) = \mathcal{T}(\mathcal{L}_x)
+= \langle x, \hat{x} \rangle - \mathcal{L}_x(x)$$
+Gradient of dual energy equals the hidden states
+$$\frac{d \mathbf x}{d t}
+= - \nabla_{\hat{x}} E_x(\hat{\mathbf x})
+= -\mathbf x$$
+> A neuron layer is just a convex function(Lagrangian) $$\mathcal L_x$$ applied to an internal state $\mathbf x$
