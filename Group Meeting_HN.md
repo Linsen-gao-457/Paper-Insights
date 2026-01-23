@@ -13,7 +13,16 @@ presentation:
 ## Hopfield Network
 📕 [paper link](https://pmc.ncbi.nlm.nih.gov/articles/PMC346238/)
 
+<!-- slide -->
+# Who is John Hopfield?
 
+<!-- slide -->
+![alt text](Image/John%20Hopfield.png)
+
+<!-- slide -->
+- Winner of the 2024 Nobel Prize in Physics
+- Poineer of Associate Neuron Network
+- Yue's Alumni
 <!-- slide -->
 What is associate memory at high level?
 
@@ -22,7 +31,7 @@ What is associate memory at high level?
 <!-- slide -->
 
 
-Hopfield Network is a information storage system which have 2 functions:
+#### table of contents
 
 1. [(Write)Store information](#write-function)
 
