@@ -48,9 +48,9 @@ What is associate memory at high level?
 <!-- slide -->
 #### Some Definitions
 
-Def The ==instaneous state== of the system is a Vector $\sigma = (\sigma_1, \sigma_2, \sigma_3, ...\sigma_N)$, for $i \in \{1, ...N\}$, $\sigma_i$ is a neuron with 2 states $\sigma_i \in \{0, 1\}$.
+Def The ==instaneous state== is a Vector $\sigma = (\sigma_1, \sigma_2, \sigma_3, ...\sigma_N)$, for $i \in \{1, ...N\}$, $\sigma_i$ is a neuron with 2 states $\sigma_i \in \{0, 1\}$.
 
-Def ==message== $\mathcal M =\{\xi^1, \xi^2, \dots, \xi^n\}$ be colum vectors in $\{0,1\}^N \subset \{\pm 1\}^N$
+Def ==message== $\mathcal M =\{\xi^1, \xi^2, \dots, \xi^n\}$$ \subseteq \{\pm 1\}^N$, for $i \in \{1,\dots, n\}$, $\xi^i \in \{\pm 1\}^N$
 <!-- slide -->
 
 
@@ -63,7 +63,7 @@ $$\scriptstyle W = \sum_{s=1}^n (2\xi^s - 1)(2\xi^s - 1)^{\top} \tag{1}$$
 - Distributed Representation
 - Set up a landscape where message become a statble points
 
-with $W_{ii}=0$, for $i\in \{1,\dots,N\}$, we denote $W $as $\overset {\sim}{W}$
+Assign $W_{ii}=0$, for $i\in \{1,\dots,N\}$, we denote $W $as $\overset {\sim}{W}$
 <!-- slide -->
 
 After that we define ==single-step update function== $T(\sigma)$ to update the state Vector $\sigma$:
