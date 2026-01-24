@@ -13,6 +13,7 @@ presentation:
 ## Hopfield Network
 📕 [paper link](https://pmc.ncbi.nlm.nih.gov/articles/PMC346238/)
 
+By John Hopfield
 <!-- slide -->
 # Who is John Hopfield?
 
@@ -133,8 +134,7 @@ $\mathcal M$ specifies Hopfield Network, because $\{E, T\}$ are parametrized by 
 
 <!-- slide -->
 Initialize a state Vector $\sigma^{(0)}$, idealy $T^\infty (\sigma^{(0)}) = \xi_i$, where $i \in \{1,\dots, n\}$
-- What $\xi_i$ do we get?
-- How far is $\sigma^{(0)}$ away from $\xi_i$
+
 <!-- slide -->
 ![Energy Minimization](Image/Energy%20Minimization.png)
 
@@ -150,4 +150,3 @@ Initialize a state Vector $\sigma^{(0)}$, idealy $T^\infty (\sigma^{(0)}) = \xi_
 Content-addressable information storage systems capable of error correction
 <!-- slide -->
 # Thank you!
-<!-- slide -->
