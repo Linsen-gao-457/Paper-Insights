@@ -62,12 +62,13 @@ $$ W = \sum_{s=1}^n (2\xi^s - 1)(2\xi^s - 1)^{\top} \tag{1}$$
 $$\scriptstyle W = \sum_{s=1}^n (2\xi^s - 1)(2\xi^s - 1)^{\top} \tag{1}$$
 - Distributed Representation
 - Set up a landscape where message become a statble points
-- $W_{ii}=0$
+
+with $W_{ii}=0$, for $i\in \{1,\dots,N\}$, we denote $W $as $\overset {\sim}{W}$
 <!-- slide -->
 
 After that we define ==single-step update function== $T(\sigma)$ to update the state Vector $\sigma$:
 
-$$T (\sigma;W):=sign(W\sigma) \tag{2}$$
+$$T (\sigma;W):=sign(\overset \sim W\sigma) \tag{2}$$
 <!-- slide -->
 Let $T_j(\sigma)$, where $j\in \{1,\dots,N\}$, be a function to update per neuron mapping from $R^N \rightarrow R$, defined by 
 
@@ -75,8 +76,8 @@ $$
 {\scriptstyle
 T_j(\sigma)=
 \begin{cases}
-1, & \text{if }\ W_j\sigma -W_{jj}\sigma_i> U,\\[4pt]
-0, & \text{if }\ W_j\sigma -W_{jj}\sigma_i\le U.
+1, & \text{if }\ W_j\sigma -W_{jj}\sigma_j> U,\\[4pt]
+0, & \text{if }\ W_j\sigma -W_{jj}\sigma_j\le U.
 \end{cases}}
 $$
 - Unless otherwise stated, we choose $U =0$
@@ -96,7 +97,7 @@ $$W_j = \sum_{s=1}^N (2\xi_j^s-1)(2\xi^s -1)^{\top}$$
 <!-- slide -->
  $W_j$ is the $j$ th row of $W$, if $W_{jj} =0$, we get
 
- $$T_j(\sigma) = sign(W_j \sigma)$$
+ $$T_j(\sigma) = sign(\overset \sim W_j \sigma)$$
 <!-- slide -->
 Def ==multi-step update function==
 
@@ -104,13 +105,13 @@ $$T^n: \{-1,1\}^N \rightarrow\{-1,1\}^N $$
 
 $$T^n(\sigma;W) = \underbrace {T(T(\dots  T(\sigma))\dots)} _{\text{n times}} \tag{3}$$
 > When $n=\infty$ ,  
-$T ^{\infty}(\sigma)= \lim _{n\rightarrow \infty} T^n(V)$
+$T ^{\infty}(\sigma)= \lim _{n\rightarrow \infty} T^n(\sigma)$
 
 <!-- slide -->
 Define ==energy function== $E: R^N \rightarrow R^+$ as follow:
 
-$$E(\sigma;W) = \frac 1 2 \sigma^\top W\sigma \qquad\forall V\in R^N\tag{4}$$
-- $\xi^i$, $i\in \{1,\dots,n\}$ is local minima of energy function
+$$E(\sigma;W) = \frac 1 2 \sigma^\top \overset \sim W\sigma \qquad\forall V\in R^N\tag{4}$$
+- $\xi^i$, $i\in \{1,\dots,n\}$ is local minima of energy function(under certain condition it could hold)
 <!-- slide -->
 **Thm** ==Energy decreasing Theorem==
 
@@ -145,6 +146,7 @@ Initialize a state Vector $\sigma^{(0)}$, idealy $T^\infty (\sigma^{(0)}) = \xi_
 - $\xi^i \in \mathcal M=\{\xi^1,\dots,\xi^K\}$ is a random vector with N dimensions. For $j\in \{1,\dots,N\}$, $\{\xi_j^i \sim Ber(0.5)\}$ which are independent.
 
 - Capacity is the maximum number $K$ of messages a Hopfield Network can store, s.t. for $i\in \{1,\dots, K\}, j\in \{1,\dots, N\}$, $Pr\{T_j(\xi^i)\ne \xi^i_j\}\le \alpha$. Denoted by $C_\alpha$
+
 <!-- slide -->
 #### TL;DR
 Content-addressable information storage systems capable of error correction
