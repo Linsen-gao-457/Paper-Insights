@@ -23,67 +23,74 @@ Hopfield Network is a information storage system which have 2 functions:
 
 # Write Function
 
-The instaneous state of the system is a Vector $V = (v_1, v_2, v_3, ...v_N)$, for $i \in \{1, ...N\}$, $v_i$ is a neuron with 2 states $v_i \in \{0, 1\}$.
+Def The ==instaneous state== of the system is a Vector $\sigma = (\sigma_1, \sigma_2, \sigma_3, ...\sigma_N)$, for $i \in \{1, ...N\}$, $\sigma_i$ is a neuron with 2 states $\sigma_i \in \{0, 1\}$.
 
-Let $V^1, V^2, \dots, V^n$ be colum vectors in $\{0,1\}^N \subset R^N$
+Def ==message== $\mathcal M =\{\xi^1, \xi^2, \dots, \xi^n\}$$ \subseteq \{\pm 1\}^N$, for $i \in \{1,\dots, n\}$, $\xi^i \in \{\pm 1\}^N$
 
-Let $T$ be a $N \times N$ matrice. Here, $T_{ij}$(for $i,j \in \{1...N\}$) as the synaptic weight representing the strength of the connection from neuron $v_i$ to neuron $v_j$. 
+Def ==connection strength== $W$ be a $N \times N$ matrice.
 
-$$T = \sum_{s=1}^n (2V^s - 1)(2V^s - 1)^{\top} \tag{1}$$
+$$ W = \sum_{s=1}^n (2\xi^s - 1)(2\xi^s - 1)^{\top} \tag{1}$$
 
 
 <a id="Strength Matrice"></a>
 
 > We are not directly writing the stored pattern into neurons - we are setting up a landscape in which that pattern become a statble points.
 
-> $T_{ii}=0$
----
-After that we define the function $A_i(V)$ to update the state of neuron $v_i$:
+Assign $W_{ii}=0$, for $i\in \{1,\dots,N\}$, we denote $W $as $\overset {\sim}{W}$
 
-Let $A_i(V)$ be a function mapping from $R^N \rightarrow R$, defined by 
+Let $T_j(\sigma)$, where $j\in \{1,\dots,N\}$, be a function to update per neuron mapping from $R^N \rightarrow R$, defined by 
 
 $$
-A_i(V) = 
+{\scriptstyle
+T_j(\sigma)=
 \begin{cases}
-1, & \text{if } \displaystyle\sum_{j \ne i} T_{ij} v_j > U_i \quad \text{or} \ <T_i,V>-T_{ii}V_i \geq U_i, 
-\\\\[8pt]
-0, & \text{if } \displaystyle\sum_{j \ne i} T_{ij} v_j < U_i \quad \text{or} \ <T_i,V>-T_{ii}V_i \leq U_i.
-\end{cases}\tag{2}
+1, & \text{if }\ W_j\sigma -W_{jj}\sigma_j> U,\\[4pt]
+0, & \text{if }\ W_j\sigma -W_{jj}\sigma_j\le U.
+\end{cases}}
 $$
-> Unless otherwise stated, we choose $U_i =0$
+- Unless otherwise stated, we choose $U =0$
+- $W_j$ is the $j$ th row of $W$
+$$W_j = \sum_{s=1}^N (2\xi_j^s-1)(2\xi^s -1)^{\top}$$
 
-> $A_i : R^N \rightarrow R$ depends only on $T_i$
+ $W_j$ is the $j$ th row of $W$, we get
+
+ $$T_j(\sigma) = sign(\overset \sim W_j \sigma)$$
+
+- $T_j$ is parametrized only by $W_j$
+- $T$ is parametrized only by $W$
+
+---
+After that we define ==single-step update function== $T(\sigma)$ to update the state Vector $\sigma$:
+
+$$T (\sigma;W):=sign(\overset \sim W\sigma) \tag{2}$$
+
+Def ==multi-step update function==
+
+$$T^n: \{-1,1\}^N \rightarrow\{-1,1\}^N $$
+
+$$T^n(\sigma;W) = \underbrace {T(T(\dots  T(\sigma))\dots)} _{\text{n times}} \tag{3}$$
+> When $n=\infty$ ,  
+$T ^{\infty}(\sigma)= \lim _{n\rightarrow \infty} T^n(\sigma)$
+
 
 ---
 
-**Thm** Update neurons rules
+Define ==energy function== $E: R^N \rightarrow R^+$ as follow:
 
-For any $S = 1,2, \dots n$, any $i = 1,2,\dots N$
+$$E(\sigma;W) = \frac 1 2 \sigma^\top \overset \sim W\sigma \qquad\forall V\in R^N\tag{4}$$
+- $\xi^i$, $i\in \{1,\dots,n\}$ is local minima of energy function(under certain condition it could hold)
 
-$$V_i^s = A_i(V^s) \tag{3}$$
 
-Define energy function $E: R^N \rightarrow R^+$ as follow:
-
-$$E(V) = \frac 1 2 V^TTV \qquad\forall V\in R^N\tag{4}$$
-
-==new idea==: 
-Define energy function $E: (R^N; R^{N\times N}) \rightarrow R^+$ also we can write it as fellow, $V \mapsto E(V;T)$:
-
-$$E(V;T) = \frac 1 2 V^TTV \qquad\forall V\in R^N$$
 
 ---
-**Thm** Energy decreasing rule
+**Thm** ==Energy decreasing Theorem==
 
-for any $V\in R^N$, let $V^{'} \in R^N$, such that 
+for any $\sigma \in R^N$, let $\sigma^{'} \in R^N$, such that 
 $$
-\begin{cases}
-v_j^{'} =v_j, &\text{if } j\neq i
-\\\\[8pt]
-v_i^{'} = A_i(V)
-\end{cases}
+\sigma ' = T(\sigma)
 $$
 
-$E(V^{'}) - E(V)\leq 0$ always hold
+$E(\sigma^{'}) - E(\sigma)\leq 0$ always hold
 
 ---
 ##### Proof:
@@ -99,37 +106,21 @@ We give an input $V_0$, the energy will converge to a minima(a stored pattern $V
 From this definition, we can know that $s' = s$, $v_i ^{s'}$ is stable and correspond to $V_i ^{s}$(we don't consider the noise from $s\neq s'$ terms), otherwise $v_i = 0$
 
 ---
-#### From biology perspectives to prove our math setting is correct
-$$v_i =\sum _s T_{ij}v_j^{s} \thickapprox (2 v_i^{s} -1) \frac N 2$$
 
-Learning Algorithm to learn matrice $T_{ij}$. 
+#### All in ALl
 
-$$
-\Delta T_{ij} = [v_i(t) v_j(t)]_{\text{average}} \tag{6}
-$$
+$\mathcal M$ specifies Hopfield Network, because $\{E, T\}$ are parametrized by $\mathcal M$
 
-Let's discuss how does the initial stored synaptic strength envolve to the final stroed synaptic strength.
-
-We have $\Delta T_{ij} = [v_i(t) v_j(t)]_{average}$, so $T_{ij}$ is not fixed - it's gradually built by summing many small updates over time, thus we get $T_{ij} = \sum _t \Delta T_{ij} (t)$
-
-
-When the network is exposed to a specific pattern $V^s$, we get $\Delta T_{ij}^{(s)} = [v^s_iv^s_j]_{average}$. Finally we get $T_{ij} = \sum _{s=1} ^n \Delta T_{ij} ^s = \sum _{s=1} ^n [v_i^s v_j^s]_{average}$
-
-For the last step, we change the voltage from 0, 1 to -1 and 1. Then we get $$T_{ij} = \sum _s (2 v_i ^s -1)(2 v_j ^s  - 1)\tag{7}$$
-
-
-Thus, from a biological perspective, we recover [Strength Matrice](#hopfield-network).
-
- 
 # Read Function
+Initialize a state Vector $\sigma^{(0)}$, idealy $T^\infty (\sigma^{(0)}) = \xi_i$, where $i \in \{1,\dots, n\}$
 
-## Capacity
+# Capacity
 
 - $\xi^i \in \mathcal M=\{\xi^1,\dots,\xi^K\}$ is a random vector with N dimensions. For $j\in \{1,\dots,N\}$, $\{\xi_j^i \sim Ber(0.5)\}$ which are independent.
 
 - Capacity is the maximum number $K$ of messages a Hopfield Network can store, s.t. for $i\in \{1,\dots, K\}, j\in \{1,\dots, N\}$, $Pr\{T_j(\xi^i)\ne \xi^i_j\}\le \alpha$. Denoted by $C_\alpha$
 
-### Proof
+## Proof
 >Given $i\in \{1,\dots, K\}, j\in \{1,\dots, N\}$, $Pr\{T_j(\xi^i)\ne \xi^i_j\}\le \alpha$. Denoted by $C_\alpha$
 
 >Goal: $K$ or $C_\alpha$
