@@ -71,30 +71,6 @@ Define energy function $E: (R^N; R^{N\times N}) \rightarrow R^+$ also we can wri
 
 $$E(V;T) = \frac 1 2 V^TTV \qquad\forall V\in R^N$$
 
-Capacity Thm
-
-Input to a neuron
-
- $Z = <T_{i}, V^{s'}> \overset {T_{ii} =0 }= \sum_s(2V_i^{s} - 1)[\sum_j V_j^{s'}(2V_j^s-1)]$ 
- 
-$ = \underbrace {(2V_i^{s'} - 1)[\sum_j V_j^{s'}(2V_j^{s'}-1)]}_{Siganl} + \sum_{s\neq s'}\underbrace {(2V_i^{s} - 1)[\sum_j V_j^{s'}(2V_j^s-1)]}_{Noise}$
-
-Based on Central limit theorem, we can get 
-
-$Z \sim N(0,\frac {nN}2)$
-
-The amplitude of Signal is $|\frac N 2|$
-So probability of the bit error in memory $P_{bit} = P[Z > \frac N 2]$
-
-Errors happen in one state $E[Errors] = N\times P_{bit}=1 $
-Thus we found that $n = 0.15N$
-Proof:
-Consider $V_j^{s'}\in \{0,1\}$ and $x_j^s \in \{-1,1\}$
-$E(V_j^{s'}x_j^s)=0$, $Var(V_j^{s'}x_j^s)=0.5$
-$\sum_j V_j^{s'}x_j^s \underbrace {\sim}_{i.i.d}\mathcal N(0,\frac n 2)$
-
-We times $(2V_i^s -1)$ before $\mathcal N(0,\frac n 2)$, which does not change the distribution, thus we get $Z \sim N(0,\frac {nN} 2)$
-
 ---
 **Thm** Energy decreasing rule
 
@@ -147,19 +123,58 @@ Thus, from a biological perspective, we recover [Strength Matrice](#hopfield-net
  
 # Read Function
 
-1. Capacity
-2. Guranteed we can fech the right pattern(distance to define)
+## Capacity
+
+- $\xi^i \in \mathcal M=\{\xi^1,\dots,\xi^K\}$ is a random vector with N dimensions. For $j\in \{1,\dots,N\}$, $\{\xi_j^i \sim Ber(0.5)\}$ which are independent.
+
+- Capacity is the maximum number $K$ of messages a Hopfield Network can store, s.t. for $i\in \{1,\dots, K\}, j\in \{1,\dots, N\}$, $Pr\{T_j(\xi^i)\ne \xi^i_j\}\le \alpha$. Denoted by $C_\alpha$
+
+### Proof
+>Given $i\in \{1,\dots, K\}, j\in \{1,\dots, N\}$, $Pr\{T_j(\xi^i)\ne \xi^i_j\}\le \alpha$. Denoted by $C_\alpha$
+
+>Goal: $K$ or $C_\alpha$
+From above we know:
+
+$$T_j(\xi) = sign (\overset \sim W_j\xi) \tag 5$$
+
+$$ W _j = \sum _{s=1} ^N (2 \xi _j^s -1)(2\xi^s -1)^\top \tag 6$$
 
 
+$T_j (\xi ^i)= sign (\overset \sim W_j \xi^i) $
 
+$W_j \xi^i \overset {\text{plug in (6)}}{=} \sum _{s=1}^K (2\xi^s_j-1)(2\xi^s -1)^\top $
+$=\underbrace {(2\xi^i_j -1)(2\xi^i-1)^\top\xi^i} _{Signal - \text{1 item}} + \underbrace {\sum_{s\ne i}(2\xi^s_j-1)(2\xi^s-1)^\top \xi^i}_{Noise -\text{K-1 items}}$
 
+$\text{Signal} = (2\xi^i_j -1)(2\xi^i-1)^\top\xi^i $
+$(2\xi^i-1)^\top\xi^i = \sum_{n=1}^N(2(\xi_n^i)^2-\xi_n^i)=\sum_{n=1}^N\xi_n^i := m_i$
+$\text{Signal} = (2\xi_j^i -1)m_i$
 
+$\text{Noise} = \underbrace {\sum_{s \ne i}(2\xi_j^s-1)(2\xi^s -1)^\top\xi^i}_{\text{K-1 items}}$
+
+$(2\xi^s -1)^\top\xi^i = \sum_{n=1}^N(2\xi^s_n -1)\xi_n^i = \underbrace {\sum_{n:\xi_n^i =1}(2\xi^s_n -1)}_{m_i \text{ items}}$
+
+CLT, $(2\xi_n^s -1)$ does not affect the distribution.
+$E(2\xi_n^s -1 ) = 0$, $Var(2\xi_n^s -1) = 1 $
+$Noise \sim \mathcal N(0, (K-1)m_i)$
+
+Now we want to substitude $W$ with $\overset \sim W$.
+$Signal + Noise - W_{jj} \xi ^i$
+
+$W_{jj}\xi^i =\sum_{s=1}^N(2\xi^s_j -1)(2\xi^s_j-1) \xi^i = N\xi^i$
+
+plug this into signal term
+
+$\text{Signal} = (2\xi _j^i -1)m_i - N\xi^i$
+$\text{Noise} \sim \mathcal N (0, (K-1)m_i)$
+
+$\text {P}(\text{sign}(\overset \sim W_j \xi^i))= \text{P}(\xi_j^i =1 )\text P (T_j(\xi _i =-1)|\xi_j^i =1) + 
+\text{P}(\xi_j^i =-1 )\text P (T_j(\xi _i =1)|\xi_j^i =-1)$
 # Other properties
 
 **Consider the case where $T_{ij}$ is not symetric**. There are 3 results
 
 1. settle into a stable state
-2. The experiement would result in a cycle consequence
+1. The experiement would result in a cycle consequence
 3. An chaotic wandering
 
 
@@ -184,20 +199,8 @@ $$
 \underbrace{\frac{1}{2}\Delta v_i \sum_{j \ne i} (T_{ij} - T_{ji}) v_j}_{\text{"stochastic" term}}\tag{6}
 $$
 
-### Capacity
-
-How do we get that the network can store about 0.15N patterns befroe error in retrival process is severe.
-
-$$H_i^s = \sum _{j\neq i} T_{ij}V_j^s =\underbrace{ \sum _{s' =1}^n V_i^{s'}V_j^{s'}V_j^s}_{T_{ij} =V_i^{s'}V_j^{s'}} = \underbrace{V_i^s \sum _{i\neq j} (V_j^s)^2}_{\text{signal term when s = s'}}+\underbrace {\sum_{s' \neq s} V_i^{s'}V_j^{s'}V_j^s}_{\text{noise when s}\neq \text{s'}} \tag7$$
-
-signal term: $H_i^s = V_i^s * \frac 1 2N$
 
 
-We find the mean and standard derivation of noise term: $\sigma = \sqrt{(n-1)N/2}$, $\mu = 0$
-
-$H_i^s = signal + noise$
-
-We want $signal =\frac N 2 > noise =\sigma$, solve this function we get $n <0.15N$.
 
 ### Genelization, Familiarity Recognition
 
