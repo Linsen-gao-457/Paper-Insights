@@ -107,8 +107,7 @@ From this definition, we can know that $s' = s$, $v_i ^{s'}$ is stable and corre
 
 ---
 
-#### All in ALl
-
+#### All in All
 $\mathcal M$ specifies Hopfield Network, because $\{E, T\}$ are parametrized by $\mathcal M$
 
 # Read Function
