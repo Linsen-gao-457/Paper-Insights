@@ -117,23 +117,41 @@ Update Rule
 
 Let ${\mathbf {\hat x_\ell}}$ and $\mathbf x_\ell$ represent the activations and internal states of node $\ell$, and let $N(\ell)$ represents the set of edge that connect to node $\ell$. 
 
-$$\mathcal{T}_\ell  \frac {d\mathbf{x}} {dt} = - \frac  {\partial E_s^{edge}} {\partial {\mathbf {\hat x_\ell}}}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})-\frac {\partial E^{node}_\ell}{\partial {\mathbf {\hat x_\ell}}} = \mathcal I_{x_\ell}-\mathbf x_\ell $$
+$$\mathcal{T}_\ell  \frac {d\mathbf{x}} {dt} = - \frac  {\partial E_{total}} {\partial {\mathbf {\hat x_\ell}}}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})-\frac {\partial E^{node}_\ell}{\partial {\mathbf {\hat x_\ell}}} = \mathcal I_{x_\ell}-\mathbf x_\ell \tag 6$$
 > Time constant for node in layer i is denoted by $\mathcal T_\ell$
 >$\mathcal I_{x_\ell}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})$ is the total synaptic input current to neuron layer $\ell$
-> when the activations ${\mathbf {\hat x_\ell}}$ are bounded, the above system is guaranteed to converge for any choice of hypersynapse energies.
+> when the activations ${\mathbf {\hat x_\ell}}$ are bounded, the above system is guaranteed to converge for any choice of ==hypersynapse energies==.
 
 
 #### Dynamical Neurons and their Lagrangains
 Activation Function
-$$\hat{x} = \nabla \mathcal{L}_x(x)$$
+$$\hat{x} = \nabla \mathcal{L}_x(x) \tag 7$$
 Dual Energy
 $$E_x(\hat{x}) = \mathcal{T}(\mathcal{L}_x)
-= \langle x, \hat{x} \rangle - \mathcal{L}_x(x)$$
+= \langle x, \hat{x} \rangle - \mathcal{L}_x(x) \tag 8$$
 A nice property of dual energy : gradient of dual energy equals the hidden states
 $$\frac{d \mathbf x}{d t}
 = - \nabla_{\hat{x}} E_x(\hat{\mathbf x})
-= -\mathbf x$$
+= -\mathbf x \tag 9$$
 > a convex scalar-valued Lagrangian $$\mathcal L_x$$. The Legendre transform $\mathcal T$ of this Lagrangian produces the dual energy
 
 #### Hypersynapses
+
+A hypersynapse connecting neuron layers X and Y has an interaction energy $E_{xy}(\hat x, \hat y, \Xi)$ which pull the connected neron layers toward configurations encoded in $\Xi$ via update rules.
+
+Hypersynapse in HAMUX vs real 
+1. Hypersynapses can connect any number of layers simultaneously
+2. Hypersynapses are undirected
+
+#### Energy Descent Dynamics
+
+**Non-increasing thm**
+$$\frac{dE_{\text{total}}}{dt}=\sum_{i=1}^{L}\frac{\partial E_{\text{total}}}{\partial \hat{x}_i}\frac{\partial \hat{x}_i}{\partial x_i}\frac{dx_i}{dt}=-\sum_{i=1}^{L}\tau_i\frac{dx_i}{dt}\frac{\partial^2 \mathcal{L}_x}{\partial x_i \partial x_i}\frac{dx_i}{dt}\le 0 \tag {10} $$
+
+> The Hessian of $\mathcal L$ is positive semi-definite
+
+- if the energy of the system is bounded below, the energy function are guaranteed to lead the trajectories to fixed manifolds corresponding to local minima of the energy
+- If the Hessian of $\mathcal L$ is positive definite, the fixed manifolds have zero-dimension; i.e. manifolds are fixed point attractors. Alternatively, if the Lagrangians have zero mode, i.e. the Hessian matrices have zero eigen value, the energy function may converge to the fixed manifolds.
+
+#### Implementing AMs
 
