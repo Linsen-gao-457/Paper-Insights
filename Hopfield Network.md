@@ -132,7 +132,7 @@ $$ W _j = \sum _{s=1} ^N (2 \xi _j^s -1)(2\xi^s -1)^\top \tag 6$$
 
 $T_j (\xi ^i)= sign (\overset \sim W_j \xi^i) $
 
-$W_j \xi^i \overset {\text{plug in (6)}}{=} \sum _{s=1}^K (2\xi^s_j-1)(2\xi^s -1)^\top $
+$W_j \xi^i \overset {\text{plug in (6)}}{=} \sum _{s=1}^K (2\xi^s_j-1)(2\xi^s -1)^\top\xi^i $
 $=\underbrace {(2\xi^i_j -1)(2\xi^i-1)^\top\xi^i} _{Signal - \text{1 item}} + \underbrace {\sum_{s\ne i}(2\xi^s_j-1)(2\xi^s-1)^\top \xi^i}_{Noise -\text{K-1 items}}$
 
 $\text{Signal} = (2\xi^i_j -1)(2\xi^i-1)^\top\xi^i $
@@ -148,17 +148,17 @@ $E(2\xi_n^s -1 ) = 0$, $Var(2\xi_n^s -1) = 1 $
 $Noise \sim \mathcal N(0, (K-1)m_i)$
 
 Now we want to substitude $W$ with $\overset \sim W$.
-$Signal + Noise - W_{jj} \xi ^i$
+$Signal + Noise - W_{jj} \xi ^i_j$
 
-$W_{jj}\xi^i =\sum_{s=1}^N(2\xi^s_j -1)(2\xi^s_j-1) \xi^i = N\xi^i$
+$W_{jj}\xi^i =\sum_{s=1}^N(2\xi^s_j -1)(2\xi^s_j-1) \xi^i = N\xi^i_j$
 
 plug this into signal term
 
-$\text{Signal} = (2\xi _j^i -1)m_i - N\xi^i$
+$\text{Signal} = (2\xi _j^i -1)m_i - N\xi^i_j$
 $\text{Noise} \sim \mathcal N (0, (K-1)m_i)$
 
 $\text {P}(\text{sign}(\overset \sim W_j \xi^i))= \text{P}(\xi_j^i =1 )\text P (T_j(\xi _i =-1)|\xi_j^i =1) + 
-\text{P}(\xi_j^i =-1 )\text P (T_j(\xi _i =1)|\xi_j^i =-1)$
+\text{P}(\xi_j^i =-1 )\text P (T_j(\xi _i =1)|\xi_j^i =-1)=$
 # Other properties
 
 **Consider the case where $T_{ij}$ is not symetric**. There are 3 results
