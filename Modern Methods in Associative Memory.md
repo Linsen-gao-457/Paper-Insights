@@ -98,18 +98,16 @@ We tolerate $P_{error} <\alpha$, thus we get $K < K^{max} = \frac 1 {\alpha ^2(2
 
 ---
 #### Building Blocks of AMs with Modular Energies
-General Dense AM - HAMUX
-1. discrete $\rightarrow$ continuous
-2. The structure of energy function is too simple: no hierarchy and too rigid
+We design a modular energy perspective framework(general DAM)  HAMUX Comparing with DAM
+1. discrete state vectors $\rightarrow$ continuous state vectors, which allows backpropagation training.
+2. No hierarchy $\rightarrow$ Hierarchical structure to capture complex representations
+3. The structure of energy function is too rigid $\rightarrow$ modular energy to allow more types of patterns and relationship the network can handle. 
 
-We design a modular energy. 
 
-HAMUX is more fundamental than its specific software implement($\text {pytorch}\leftrightarrow \text{autograd}$)
-
-Def **neuron layer(Node)** is a non-linear function( aka activation function) $\hat x = f(x)$, where activations $\hat x$ and pre-activation $x$.
+Def **neuron layer(Node)** is a non-linear function( aka activation function) $\hat x = f(x)$, where activations $\hat x$ and pre-activation(input) $x$.
 
 Def **hypersynapse(Edge)** is a parameterized energy function that captures how similar or aligned the activations of its connected neuron layers are. 
-> We can design different synptic energies that can determine what kind of relationship between the activations of connected nodes is enforcing:Conv, Pooling, or even attention. 
+> We can design different synptic energies that can determine what kind of relationship between nodes is enforcing : Conv, Pooling, or attention. 
 
 For a system of $L$ neuron layers and $S$ hypersynapses, the energy function of the system is
 
@@ -131,8 +129,11 @@ $$\hat{x} = \nabla \mathcal{L}_x(x)$$
 Dual Energy
 $$E_x(\hat{x}) = \mathcal{T}(\mathcal{L}_x)
 = \langle x, \hat{x} \rangle - \mathcal{L}_x(x)$$
-Gradient of dual energy equals the hidden states
+A nice property of dual energy : gradient of dual energy equals the hidden states
 $$\frac{d \mathbf x}{d t}
 = - \nabla_{\hat{x}} E_x(\hat{\mathbf x})
 = -\mathbf x$$
-> A neuron layer is just a convex function(Lagrangian) $$\mathcal L_x$$ applied to an internal state $\mathbf x$
+> a convex scalar-valued Lagrangian $$\mathcal L_x$$. The Legendre transform $\mathcal T$ of this Lagrangian produces the dual energy
+
+#### Hypersynapses
+
