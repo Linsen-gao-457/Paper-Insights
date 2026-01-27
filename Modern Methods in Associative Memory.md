@@ -143,6 +143,8 @@ Hypersynapse in HAMUX vs real
 1. Hypersynapses can connect any number of layers simultaneously
 2. Hypersynapses are undirected
 
+Self connection synaptic energy noted by $E_{\{x\}}$
+
 #### Energy Descent Dynamics
 
 **Non-increasing thm**
