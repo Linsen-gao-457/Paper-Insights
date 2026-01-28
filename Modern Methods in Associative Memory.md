@@ -104,7 +104,29 @@ We design a modular energy perspective framework(general DAM)  HAMUX Comparing w
 3. The structure of energy function is too rigid $\rightarrow$ modular energy to allow more types of patterns and relationship the network can handle. 
 
 
-Def **neuron layer(Node)** is a non-linear function( aka activation function) $\hat x = f(x)$, where activations $\hat x$ and pre-activation(input) $x$.
+Def **neuron layer(Node)** is a non-linear function( aka activation function) $\hat {\mathbf x} = f(\mathbf x)$, where $\mathbf x, \hat {\mathbf x} \in R^n$ 
+> activations $\hat {\mathbf x} $ and pre-activation(input) $\mathbf x$.
+> $f$ is monotonically increasing function of $x$ 
+
+Def **Energy function of neuron layers $\mathbf x$** 
+
+$$E(\mathbf x) = \mathcal T(\mathcal L_\mathbf x) = \langle f({\mathbf x}) , \mathbf x\rangle - \mathcal L_\mathbf x(\mathbf x) = \langle f(\mathbf x), \mathbf x\rangle - \langle \mathcal l(\mathbf x), \mathbf{1}\rangle$$
+ $\mathcal L_\mathbf x$ is a convex Lagrangian function, s.t. activation function
+
+$$\hat{\mathbf x} = \nabla \mathcal{L}_\mathbf x(\mathbf x) \tag 7$$
+
+[Proof $\mathcal L$ is convex function](#l-is-a-convex-function)
+
+we let $\mathcal L_x(\mathbf x) = \mathcal l(x_1)+ \mathcal l(x_2) + \dots \mathcal l(x_n) = \langle \mathcal l (\mathbf x), \mathbf 1 \rangle$
+
+$l(x_i) = \int _{- \infty }^{x_i} f(t) dt$ where $i\in \{1,\dots, n\}$
+
+---
+
+Ex.
+Let $f(\mathbf x)$ be ReLu function 
+
+---
 
 Def **hypersynapse(Edge)** is a parameterized energy function that captures how similar or aligned the activations of its connected neuron layers are. 
 > We can design different synptic energies that can determine what kind of relationship between nodes is enforcing : Conv, Pooling, or attention. 
@@ -126,20 +148,24 @@ $$\mathcal{T}_\ell  \frac {d\mathbf{x}} {dt} = - \frac  {\partial E_{total}} {\p
 #### Dynamical Neurons and their Lagrangains
 Activation Function
 $$\hat{x} = \nabla \mathcal{L}_x(x) \tag 7$$
+> Monotonic function are gradient of convex function
+
 Dual Energy
 $$E_x(\hat{x}) = \mathcal{T}(\mathcal{L}_x)
 = \langle x, \hat{x} \rangle - \mathcal{L}_x(x) \tag 8$$
+> Think this as regurarization, i.e. exponential decay
+
 A nice property of dual energy : gradient of dual energy equals the hidden states
 $$\frac{d \mathbf x}{d t}
 = - \nabla_{\hat{x}} E_x(\hat{\mathbf x})
 = -\mathbf x \tag 9$$
-> a convex scalar-valued Lagrangian $$\mathcal L_x$$. The Legendre transform $\mathcal T$ of this Lagrangian produces the dual energy
+> a convex scalar-valued Lagrangian $$\mathcal L_x$$ The Legendre transform $\mathcal T$ of this Lagrangian produces the dual energy
 
 #### Hypersynapses
 
 A hypersynapse connecting neuron layers X and Y has an interaction energy $E_{xy}(\hat x, \hat y, \Xi)$ which pull the connected neron layers toward configurations encoded in $\Xi$ via update rules.
 
-Hypersynapse in HAMUX vs real 
+Hypersynapse in HAMUX vs real bio synaptic
 1. Hypersynapses can connect any number of layers simultaneously
 2. Hypersynapses are undirected
 
@@ -157,3 +183,16 @@ $$\frac{dE_{\text{total}}}{dt}=\sum_{i=1}^{L}\frac{\partial E_{\text{total}}}{\p
 
 #### Implementing AMs
 
+##### Energy Transformer Block
+Attention formula
+$$\text{Attention}(Q,K,V) = \text{softmax}(\frac {QK^\top}{\sqrt d_k})V$$
+> $d_k$ is the dimension of each key vector
+
+Multi-Head Attention
+$$\text{MultiHead} (Q,K,V) = \text{Concat}(\text{head}_1, \dots,\text{head}_h)W^O$$
+where $\text{head}_i = \text{Attention} (QW_i^Q, KW_i^K,VW_i^V)$
+> $W_i^Q \in R^{d_{model} \times d_k}$, $W_i^K \in R^{d_{model}\times d_k}$, $W_i^V \in R^{d_{model} \times d_v}$ and $W^O \in R^{hd_v \times d_{model}}$
+
+# Proof
+
+## L is a convex function
