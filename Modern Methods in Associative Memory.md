@@ -124,7 +124,26 @@ $l(x_i) = \int _{- \infty }^{x_i} f(t) dt$ where $i\in \{1,\dots, n\}$
 ---
 
 Ex.
-Let $f(\mathbf x)$ be ReLu function 
+Let $f(\mathbf x)$ be a ReLu function 
+
+let $\mathcal l: R\rightarrow R$
+$$\mathcal l(x)= 
+\begin{cases}
+0, x\le 0 , \\
+\frac 1 2 x^2, x>0
+\end{cases}$$
+
+we can easify find that $l'(x) = \text{Relu}(x)$
+
+$\mathcal L(\mathbf x) = \mathcal l(\mathbf x [1]) + \mathcal l(\mathbf x[2])$
+
+$$\text{Relu}(x)=
+\begin{cases}
+0, & x \le 0,\\
+x, & x > 0.
+\end{cases}$$
+
+$\nabla \mathcal L(\mathbf x) = (\frac {\partial \mathcal L}{\partial \mathbf x[1]}, \frac {\partial \mathcal L}{\partial \mathbf x[2]}) = (\text{Relu}(\mathcal x[1]), \text{Relu}(\mathcal x[2])) = f(\mathbf x)$
 
 ---
 
