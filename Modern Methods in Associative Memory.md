@@ -215,3 +215,7 @@ where $\text{head}_i = \text{Attention} (QW_i^Q, KW_i^K,VW_i^V)$
 # Proof
 
 ## L is a convex function
+
+Since $f$ is mononitically increasing，we can easily get $\nabla f \ge 0$. 
+
+Thus the Hessian of $\mathcal L \succeq 0$, we can easily know that $\mathcal L$ is positive definite.
