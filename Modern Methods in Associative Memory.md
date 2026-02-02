@@ -114,10 +114,21 @@ Def **Energy function of neuron layers $\mathbf x$**
 
 $$E_n(\mathbf x) = \mathcal T(\mathcal L_\mathbf x) = \langle f({\mathbf x}) , \mathbf x\rangle - \mathcal L_\mathbf x(\mathbf x) = \langle f(\mathbf x), \mathbf x\rangle - \langle \mathcal l(\mathbf x), \mathbf{1}\rangle \tag 6$$
  $\mathcal L_\mathbf x$ is a convex Lagrangian function, s.t. activation function
+ > a convex scalar-valued Lagrangian $$\mathcal L_x$$ The Legendre transform $\mathcal T$ of this Lagrangian produces the dual energy
+
  [Proof $\mathcal L$ is convex function](#l-is-a-convex-function)
-> $\frac {\partial E(\mathbf x)}{\partial \hat {\mathbf x}} = \mathbf x$
-> > Think this as regurarization, i.e. exponential decay
-$$\hat{\mathbf x} = \nabla \mathcal{L}_\mathbf x(\mathbf x) \tag 7$$
+We can derive that
+$$\frac {\partial E(\mathbf x)}{\partial \hat {\mathbf x}} = \mathbf x \tag 7$$
+A nice property of dual energy : gradient of dual energy equals the hidden states
+$$\frac{d \mathbf x}{d t}
+= - \nabla_{\hat{x}} E_x(\hat{\mathbf x})
+= -\mathbf x \tag 8$$
+
+
+
+> > Think this as regurarization, i.e. exponential decay, which make neuron layers bounded
+
+$$\hat{\mathbf x} = \nabla \mathcal{L}_\mathbf x(\mathbf x) \tag 9$$
 
 
 
@@ -154,41 +165,10 @@ $\nabla \mathcal L(\mathbf x) = (\frac {\partial \mathcal L}{\partial \mathbf x[
 Def **hypersynapse(Edge)** is a parameterized energy function that captures how similar or aligned the activations of its connected neuron layers are. 
 > We can design different synptic energies that can determine what kind of relationship between nodes is enforcing : Conv, Pooling, or attention. 
 
-Ex. Edge function
-$E_e(\hat {\mathbf x}, \hat {\mathbf y}; W)= \hat {\mathbf x}^\top W \hat {\mathbf y}$
-
-where $W$ is a $N \times N$ matrice.
-
-For a system of $L$ neuron layers and $S$ hypersynapses, the energy function of the system is
-
-$$E_{total} = \sum_{l=1}^L E^{neuron layer}_l + \sum_{s=1}^SE_s^{synapse} \tag 5$$
-
-Update Rule
-
-Let ${\mathbf {\hat x_\ell}}$ and $\mathbf x_\ell$ represent the activations and internal states of node $\ell$, and let $N(\ell)$ represents the set of edge that connect to node $\ell$. 
-
-$$\mathcal{T}_\ell  \frac {d\mathbf{x}} {dt} = - \frac  {\partial E_{total}} {\partial {\mathbf {\hat x_\ell}}}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})-\frac {\partial E^{node}_\ell}{\partial {\mathbf {\hat x_\ell}}} = \mathcal I_{x_\ell}-\mathbf x_\ell \tag 6$$
-> Time constant for node in layer i is denoted by $\mathcal T_\ell$
->$\mathcal I_{x_\ell}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})$ is the total synaptic input current to neuron layer $\ell$
-> when the activations ${\mathbf {\hat x_\ell}}$ are bounded, the above system is guaranteed to converge for any choice of ==hypersynapse energies==.
 
 
-#### Dynamical Neurons and their Lagrangains
-
-Dual Energy
-$$E_x(\hat{\mathbf x}) = \mathcal{T}(\mathcal{L}_\mathbf x)
-= \langle \mathbf x, \hat{\mathbf x} \rangle - \mathcal{L}_\mathbf x(\mathbf x) \tag 8$$
-
-
-A nice property of dual energy : gradient of dual energy equals the hidden states
-$$\frac{d \mathbf x}{d t}
-= - \nabla_{\hat{x}} E_x(\hat{\mathbf x})
-= -\mathbf x \tag 9$$
-> a convex scalar-valued Lagrangian $$\mathcal L_x$$ The Legendre transform $\mathcal T$ of this Lagrangian produces the dual energy
-
-#### Hypersynapses
-
-A hypersynapse connecting neuron layers X and Y has an interaction energy $E_{xy}(\hat x, \hat y, \Xi)$ which pull the connected neron layers toward configurations encoded in $\Xi$ via update rules.
+A hypersynapse connecting neuron layers X and Y has an interaction energy $E_{xy}(\hat {\mathbf x}, \hat {\mathbf y}, W)$ which pull the connected neron layers toward configurations encoded in $W$ via update rules.
+> $W$ represents the synaptic weights or learnable parameters
 
 Hypersynapse in HAMUX vs real bio synaptic
 1. Hypersynapses can connect any number of layers simultaneously
@@ -196,15 +176,38 @@ Hypersynapse in HAMUX vs real bio synaptic
 
 Self connection synaptic energy noted by $E_{\{x\}}$
 
+Ex. Edge function
+$E_{\mathbf x \mathbf y}(\hat {\mathbf x}, \hat {\mathbf y}; W)= \hat {\mathbf x}^\top W \hat {\mathbf y}$
+
+where $W$ is a $N \times N$ matrice.
+
+[General Form of Energy function](#general-form-of-energy-function)
+
+---
+##### Energy function of system
+
+For a system of $L$ neuron layers and $S$ hypersynapses, the energy function of the system is
+
+$$E_{total} = \sum_{l=1}^L E^{neuron layer}_l + \sum_{s=1}^SE_s^{synapse} \tag {10}$$
+
+##### Update Rule
+
+Let ${\mathbf {\hat x_\ell}}$ and $\mathbf x_\ell$ represent the activations and internal states of node $\ell$, and let $N(\ell)$ represents the set of edge that connect to node $\ell$. 
+
+$$\tau_\ell  \frac {d\mathbf{x}} {dt} = - \frac  {\partial E_{total}} {\partial {\mathbf {\hat x_\ell}}}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})-\frac {\partial E^{node}_\ell}{\partial {\mathbf {\hat x_\ell}}} = \mathcal I_{x_\ell}-\mathbf x_\ell \tag {11}$$
+> Time constant for node in layer i is denoted by $\tau_\ell$
+>neuron layer $\ell$ receive signal $\mathcal I_{x_\ell}= -(\sum _{s\in N(\ell)}\frac {\partial E_s^{edge}}{\partial {{\mathbf {\hat x_\ell}}}})$
+> when the activations ${\mathbf {\hat x_\ell}}$ are bounded, the above system is guaranteed to converge for any choice of ==hypersynapse energies==.
+
 #### Energy Descent Dynamics
 
 **Non-increasing thm**
-$$\frac{dE_{\text{total}}}{dt}=\sum_{i=1}^{L}\frac{\partial E_{\text{total}}}{\partial \hat{x}_i}\frac{\partial \hat{x}_i}{\partial x_i}\frac{dx_i}{dt}=-\sum_{i=1}^{L}\tau_i\frac{dx_i}{dt}\frac{\partial^2 \mathcal{L}_x}{\partial x_i \partial x_i}\frac{dx_i}{dt}\le 0 \tag {10} $$
+$$\frac{dE_{\text{total}}}{dt}=\sum_{i=1}^{L}\frac{\partial E_{\text{total}}}{\partial \hat{x}_i}\frac{\partial \hat{x}_i}{\partial x_i}\frac{dx_i}{dt}=-\sum_{i=1}^{L}\tau_i\frac{dx_i}{dt}\frac{\partial^2 \mathcal{L}_x}{\partial x_i \partial x_i}\frac{dx_i}{dt}\le 0 \tag {12} $$
 
 > The Hessian of $\mathcal L$ is positive semi-definite
 
 - if the energy of the system is bounded below, the energy function are guaranteed to lead the trajectories to fixed manifolds corresponding to local minima of the energy
-- If the Hessian of $\mathcal L$ is positive definite, the fixed manifolds have zero-dimension; i.e. manifolds are fixed point attractors. Alternatively, if the Lagrangians have zero mode, i.e. the Hessian matrices have zero eigen value, the energy function may converge to the fixed manifolds.
+- If the Hessian of $\mathcal L$ is positive definite, the fixed manifolds have zero-dimension; i.e. manifolds are fixed point attractors. Alternatively, if the Lagrangians have zero mode, i.e. the Hessian matrices have zero eigen value, the energy function may converge to the fixed manifolds while the gradient $\nabla E \ne 0$.
 
 #### Implementing AMs
 
@@ -218,10 +221,130 @@ $$\text{MultiHead} (Q,K,V) = \text{Concat}(\text{head}_1, \dots,\text{head}_h)W^
 where $\text{head}_i = \text{Attention} (QW_i^Q, KW_i^K,VW_i^V)$
 > $W_i^Q \in R^{d_{model} \times d_k}$, $W_i^K \in R^{d_{model}\times d_k}$, $W_i^V \in R^{d_{model} \times d_v}$ and $W^O \in R^{hd_v \times d_{model}}$
 
-# Proof
+# Appendix
 
 ## L is a convex function
 
 Since $f$ is mononitically increasing，we can easily get $\nabla f \ge 0$. 
 
 Thus the Hessian of $\mathcal L \succeq 0$, we can easily know that $\mathcal L$ is positive definite.
+
+## General Form of Energy Function
+
+energy can be decomposed into three functional layers:
+
+$$
+E(\sigma) = - Q\left(\sum_{\mu=1}^{K} F\big(S(\xi^\mu,\sigma)\big)\right)
+$$
+
+where the computation proceeds as:
+
+1. Similarity layer $$S(\xi^\mu,\sigma)$$
+
+Example A — Dot product (Hopfield-style)
+
+$$
+S_\mu = \xi^\mu \cdot \sigma = \sum_{i=1}^N \xi_i^\mu \sigma_i
+$$
+
+Example B — Cosine similarity
+
+$$
+S_\mu = \frac{\xi^\mu \cdot \sigma}{|\xi^\mu||\sigma|}
+$$
+
+Example C — Negative Euclidean distance
+
+$$
+S_\mu = -|\sigma - \xi^\mu|^2
+$$
+
+
+2. Separation layer $$F(S)$$
+
+Amplifies strong matches and suppresses weak ones.
+
+Example A — Power nonlinearity
+
+$$
+F(S) = S^n, \quad n>2
+$$
+
+Example B — Exponential
+
+$$
+F(S) = e^{\beta S}
+$$
+
+Example C — Rectified power
+
+$$
+F(S) = \max(0,S)^n
+$$
+
+⸻
+
+3. Global shaping layer $$Q(z)$$
+
+Transforms the total evidence
+
+$$
+z = \sum_{\mu=1}^{K} F(S_\mu)
+$$
+
+into energy.
+
+Example A — Linear
+
+$$
+Q(z) = z
+$$
+
+Example B — Logarithmic
+
+$$
+Q(z) = \log z
+$$
+
+Example C — Power
+
+$$
+Q(z) = z^p, \quad p>1
+$$
+
+⸻
+
+Concrete model instantiations
+
+Classical Dense Hopfield
+
+$$
+S_\mu = \xi^\mu \cdot \sigma
+$$
+$$
+F(S) = S^2
+$$
+$$
+Q(z) = z
+$$
+$$
+E = -\sum_\mu (\xi^\mu \cdot \sigma)^2
+$$
+
+⸻
+
+Modern Hopfield / Attention-like
+
+$$
+S_\mu = \xi^\mu \cdot \sigma
+$$
+$$
+F(S) = e^{\beta S}
+$$
+$$
+Q(z) = \log z
+$$
+$$
+E = -\log \sum_\mu e^{\beta (\xi^\mu \cdot \sigma)}
+$$
+
