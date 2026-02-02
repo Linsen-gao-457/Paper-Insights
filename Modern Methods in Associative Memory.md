@@ -13,19 +13,21 @@ $\mathcal M := \{\xi^1,\xi^2,\dots, \xi^k\} \subseteq \{-1,+1\}^N$
 
 We define the energy function
 
-$$E(\sigma; \mathcal {\bar M}) = -\sum _{\mu=1}^K F(\xi^\mu \cdot\sigma) \tag{1}$$
-> $F$ is a function defining energy function
+$$E(\sigma; \Xi) = -\sum _{\mu=1}^K F(\xi^\mu \cdot\sigma) = - \langle \mathbf 1, F(\Xi \sigma)\rangle \tag{1}$$
+> $F: R \rightarrow R$ is a function defining energy function, $\Xi = ({\xi^1 }^\top, \dots, {\xi^K}^\top)$ is a $K \times N$ matrices
 
 ### Update function
 
 Def a single-step update function $T:R^N\rightarrow R^N$
 
-$$\sigma^{(t+1)} = T(\sigma^t;{\mathcal {\bar M}})\tag 2$$
+$$\sigma^{(t+1)} = T(\sigma^t;{\mathcal {\bar M}}) = \text{Sign}[\Xi^\top f(\overset {\sim}{\Xi} \sigma ^{(t)})]\tag 2$$
 
 For each element in $\sigma$, we have
-$$ \sigma_i^{(t+1)} = \text{Sign}[\sum_{\mu =1}^K \xi_i^\mu f(\xi^\mu \cdot \sigma^{(t)}-\xi_i^\mu \sigma_i^{(t)})]
+$$ \sigma_i^{(t+1)} = \text{Sign}[\sum_{\mu =1}^K \xi_i^\mu f(\xi^\mu \cdot \sigma^{(t)}-\xi_i^\mu \sigma_i^{(t)})]= \text{Sign}[\langle \Xi_{\cdot i}, f(\Xi\sigma^{(t)}-\sigma_i^{(t)}\Xi_{\cdot i})\rangle] = $$
+$$\text{Sign}[\langle \Xi_{\cdot i}, f(\overset \sim \Xi \sigma^{(t)})\rangle]
 \tag 3$$
 >Activation function $f(\cdot) = F'(\cdot)$, which is a derivatice of the function $F(\cdot)$ defining the energy function
+> let $\overset \sim \Xi = \Xi$ with $i_{th}$ colum set to 0 
 
 Def $T^n: R^N\rightarrow R^N$, $\underbrace {T^n(\sigma)=T(T(\dots T(\sigma)))))))}_{\text{n times}}$
 
@@ -110,12 +112,14 @@ Def **neuron layer(Node)** is a non-linear function( aka activation function) $\
 
 Def **Energy function of neuron layers $\mathbf x$** 
 
-$$E(\mathbf x) = \mathcal T(\mathcal L_\mathbf x) = \langle f({\mathbf x}) , \mathbf x\rangle - \mathcal L_\mathbf x(\mathbf x) = \langle f(\mathbf x), \mathbf x\rangle - \langle \mathcal l(\mathbf x), \mathbf{1}\rangle$$
+$$E_n(\mathbf x) = \mathcal T(\mathcal L_\mathbf x) = \langle f({\mathbf x}) , \mathbf x\rangle - \mathcal L_\mathbf x(\mathbf x) = \langle f(\mathbf x), \mathbf x\rangle - \langle \mathcal l(\mathbf x), \mathbf{1}\rangle \tag 6$$
  $\mathcal L_\mathbf x$ is a convex Lagrangian function, s.t. activation function
-
+ [Proof $\mathcal L$ is convex function](#l-is-a-convex-function)
+> $\frac {\partial E(\mathbf x)}{\partial \hat {\mathbf x}} = \mathbf x$
+> > Think this as regurarization, i.e. exponential decay
 $$\hat{\mathbf x} = \nabla \mathcal{L}_\mathbf x(\mathbf x) \tag 7$$
 
-[Proof $\mathcal L$ is convex function](#l-is-a-convex-function)
+
 
 we let $\mathcal L_x(\mathbf x) = \mathcal l(x_1)+ \mathcal l(x_2) + \dots \mathcal l(x_n) = \langle \mathcal l (\mathbf x), \mathbf 1 \rangle$
 
@@ -150,6 +154,11 @@ $\nabla \mathcal L(\mathbf x) = (\frac {\partial \mathcal L}{\partial \mathbf x[
 Def **hypersynapse(Edge)** is a parameterized energy function that captures how similar or aligned the activations of its connected neuron layers are. 
 > We can design different synptic energies that can determine what kind of relationship between nodes is enforcing : Conv, Pooling, or attention. 
 
+Ex. Edge function
+$E_e(\hat {\mathbf x}, \hat {\mathbf y}; W)= \hat {\mathbf x}^\top W \hat {\mathbf y}$
+
+where $W$ is a $N \times N$ matrice.
+
 For a system of $L$ neuron layers and $S$ hypersynapses, the energy function of the system is
 
 $$E_{total} = \sum_{l=1}^L E^{neuron layer}_l + \sum_{s=1}^SE_s^{synapse} \tag 5$$
@@ -165,14 +174,11 @@ $$\mathcal{T}_\ell  \frac {d\mathbf{x}} {dt} = - \frac  {\partial E_{total}} {\p
 
 
 #### Dynamical Neurons and their Lagrangains
-Activation Function
-$$\hat{x} = \nabla \mathcal{L}_x(x) \tag 7$$
-> Monotonic function are gradient of convex function
 
 Dual Energy
-$$E_x(\hat{x}) = \mathcal{T}(\mathcal{L}_x)
-= \langle x, \hat{x} \rangle - \mathcal{L}_x(x) \tag 8$$
-> Think this as regurarization, i.e. exponential decay
+$$E_x(\hat{\mathbf x}) = \mathcal{T}(\mathcal{L}_\mathbf x)
+= \langle \mathbf x, \hat{\mathbf x} \rangle - \mathcal{L}_\mathbf x(\mathbf x) \tag 8$$
+
 
 A nice property of dual energy : gradient of dual energy equals the hidden states
 $$\frac{d \mathbf x}{d t}
