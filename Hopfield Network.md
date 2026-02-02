@@ -77,7 +77,7 @@ $T ^{\infty}(\sigma)= \lim _{n\rightarrow \infty} T^n(\sigma)$
 
 Define ==energy function== $E: R^N \rightarrow R^+$ as follow:
 
-$$E(\sigma;W) = \frac 1 2 \sigma^\top \overset \sim W\sigma \qquad\forall V\in R^N\tag{4}$$
+$$E(\sigma;W) = -\frac 1 2 \sigma^\top \overset \sim W\sigma \qquad\forall V\in R^N\tag{4}$$
 - $\xi^i$, $i\in \{1,\dots,n\}$ is local minima of energy function(under certain condition it could hold)
 
 
