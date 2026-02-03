@@ -236,7 +236,7 @@ $$\text{MLP}(\hat {\mathbf x})_{B} = \langle W_{\cdot i}, \text{ReLU}(\langle V,
 
 Which is similar to [Energy function](#update-function)
 
-We let $V =W = \Xi$, This is exactly classic Hopfield network, since $\text{ReLU} = xß$
+We let $V =W = \Xi$, This is exactly classic Hopfield network, since $\text{ReLU} = x$
 
 Layer Norm and Attn, see original paper
 
