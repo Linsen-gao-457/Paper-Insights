@@ -221,6 +221,25 @@ $$\text{MultiHead} (Q,K,V) = \text{Concat}(\text{head}_1, \dots,\text{head}_h)W^
 where $\text{head}_i = \text{Attention} (QW_i^Q, KW_i^K,VW_i^V)$
 > $W_i^Q \in R^{d_{model} \times d_k}$, $W_i^K \in R^{d_{model}\times d_k}$, $W_i^V \in R^{d_{model} \times d_v}$ and $W^O \in R^{hd_v \times d_{model}}$
 
+we want to capture layernorm, attn, and mlp. 
+
+---
+
+##### MLP
+
+Def a transformer with L blocks: input $\{\mathbf x_1^{(0)}, \dots, \mathbf x_N^{(0)}\}$ and output $\{\mathbf x_1^{(L)}, \dots, \mathbf x_N^{(L)}\}$, for each $\mathbf x _i^{(l)} \in R^D$
+
+In traditional transformers, the MLP can be written as a two-layer feedforward network with a ReLU on the hidden activations. The MLP is parametrized by two weight matrice $\mathbf V, \mathbf W \in R^{M \times D}$. 
+
+$$\text{MLP}(\hat {\mathbf x})_{B} = \langle W_{\cdot i}, \text{ReLU}(\langle V, \hat {\mathbf{x_B}}\rangle)\rangle $$
+> $B = 1, \dots, N$
+
+Which is similar to [Energy function](#update-function)
+
+We let $V =W = \Xi$, This is exactly classic Hopfield network, since $\text{ReLU} = xß$
+
+Layer Norm and Attn, see original paper
+
 # Appendix
 
 ## L is a convex function
