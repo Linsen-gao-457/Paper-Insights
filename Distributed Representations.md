@@ -146,5 +146,14 @@ Limitation of coarse coding
 2. Coarse coding is useful if the required effect of a feature is the average of the required effects of its neighbors.
 3. When coarse-coded representations interact, there is a tendency for the coarseness to increase.
 
+## Genelization to noncontinuous spaces
+We can easily generalize distributed representation from continuous space to discrete space(sets).
+
+Example: 
+Consider a microlanguage consisting of three-letter words made of w or l, followed by i or e, followed by g or r. Construct a network to classify the two valid word leg and wig. 
+
+In figure 4, we have three pannels: distributed system does not work, conjuctive distributed system work, local representation.
+
+![Energy Minimization](Image/Distributed%20System/Determining%20which%20of%20strings.png)
 
 # Difficult Issues Solved by Distributed System( Structured Representations and process)
