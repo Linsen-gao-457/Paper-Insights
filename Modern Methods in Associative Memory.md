@@ -215,11 +215,14 @@ $$\frac{dE_{\text{total}}}{dt}=\sum_{i=1}^{L}\frac{\partial E_{\text{total}}}{\p
 Attention formula
 $$\text{Attention}(Q,K,V) = \text{softmax}(\frac {QK^\top}{\sqrt d_k})V$$
 > $d_k$ is the dimension of each key vector
+> $Q \in R^{N \times d_k}, K \in R^{N \times d_k}, V \in R^{N \times d_v}$
 
 Multi-Head Attention
 $$\text{MultiHead} (Q,K,V) = \text{Concat}(\text{head}_1, \dots,\text{head}_h)W^O$$
 where $\text{head}_i = \text{Attention} (QW_i^Q, KW_i^K,VW_i^V)$
 > $W_i^Q \in R^{d_{model} \times d_k}$, $W_i^K \in R^{d_{model}\times d_k}$, $W_i^V \in R^{d_{model} \times d_v}$ and $W^O \in R^{hd_v \times d_{model}}$
+
+> $d_k=d_v = \frac {d_{model}} h$. $Q \in R^{N \times d_{model}}, K \in R^{N \times d_{model}}, V \in R^{N \times d_{model }}$
 
 we want to capture layernorm, attn, and mlp. 
 
