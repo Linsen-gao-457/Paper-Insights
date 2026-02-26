@@ -18,7 +18,7 @@ By John Hopfield
 # Who is John Hopfield?
 
 <!-- slide -->
-![alt text](Image/John%20Hopfield.png)
+![alt text](Image/Group%20Meeting_HN/John%20Hopfield.png)
 
 <!-- slide -->
 - Winner of the 2024 Nobel Prize in Physics
@@ -27,7 +27,7 @@ By John Hopfield
 <!-- slide -->
 What is associate memory at high level?
 
-![alt text](Image/Associate%20Memory.png)
+![alt text](Image/Group%20Meeting_HN/Associate%20Memory.png)
 
 <!-- slide -->
 
@@ -137,7 +137,7 @@ $\mathcal M$ specifies Hopfield Network, because $\{E, T\}$ are parametrized by 
 Initialize a state Vector $\sigma^{(0)}$, idealy $T^\infty (\sigma^{(0)}) = \xi_i$, where $i \in \{1,\dots, n\}$
 
 <!-- slide -->
-![Energy Minimization](Image/Energy%20Minimization.png)
+![Energy Minimization](Image/Group%20Meeting_HN/Energy%20Minimization.png)
 
 <!-- slide -->
 ### Capacity
