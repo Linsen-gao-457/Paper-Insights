@@ -191,4 +191,36 @@ We have simplify assumptions
 2. No fint-tuned procedure to improve performance
 3. Ignore cross-connections among the schemes
 > 2 and 3 cna improve the efficiency of distirbuted system
+
+
 # Difficult Issues Solved by Distributed System( Structured Representations and process)
+
+## Representing Constitunent Structure
+
+Representing constituent structure
+1. IS-A hierachy that relates types to instances. 
+2. part/whole hierarchy that relates items to the constituent items
+
+If we want to use 2 to 1, it seems that we cannot make the whole be the sum of the representations of its parts.
+
+Ex of 1.
+
+Vehicle
+- Car
+    - EV
+    - SUV 
+- Motorcycle
+
+Ex of 2
+- Car
+    - Engine
+    - Wheel
+    - Door
+    - Battery
+
+How to represent items and its contituent items at the same time, proposed by Hintton
+1. The identities of each part should be combined with its role to produce a single pattern
+2. The distributed rerpresentation of the shole should consist of the sum of distributed rerpesentations for identities/rolws representations
+
+Sequential Symbol Processing
+
