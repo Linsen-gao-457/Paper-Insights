@@ -222,5 +222,6 @@ How to represent items and its contituent items at the same time, proposed by Hi
 1. The identities of each part should be combined with its role to produce a single pattern
 2. The distributed rerpresentation of the shole should consist of the sum of distributed rerpesentations for identities/rolws representations
 
-Sequential Symbol Processing
+## Sequential Symbol Processing
 
+Only one structure ca be represented at a time. So we want a thing which is functionally equivalent to aribitrary pointers which implement symbol processing. This is exactly what is provided by subpatterns that stand for identity/role combinations. They allow the indentity of the parted to be accessed from a representation of the whole and a representation of the whole from combinations of parts.
