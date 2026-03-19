@@ -154,7 +154,7 @@ Consider a microlanguage consisting of three-letter words made of w or l, follow
 
 In figure 4, we have three pannels: distributed system does not work, conjuctive distributed system work, local representation.
 
-![Distribution Items](Image/Distributed%20System/Determining%20which%20of%20strings.png)
+![Distribution Items](../Image/Distributed%20System/Determining%20which%20of%20strings.png)
 
 ## Implementing an Arbitrary Mapping Between Two Domains
 Arbitary mapping is a function $f: X \rightarrow y$
@@ -163,12 +163,12 @@ Arbitary mapping is a function $f: X \rightarrow y$
 
 We find a problem which is really hard for distribtued representation to deal with, which is relatively easier for local representation(We get this from intuition instead of proof). If we can deal with this; we can say that distributed rerpresentation is effcient to deal with any other tasks with patterns.
 
-![Local distribution](Image/Distributed%20System/Local%20distribution%20for%20three%20layers.png)
+![Local distribution](../Image/Distributed%20System/Local%20distribution%20for%20three%20layers.png)
 > the bottom layer contains units that represent particular graphemes in particular positions within the word. 
 > The middle layer contains units that recognize complete words
 > The top layer contains units that represent semantic features of words
 
-![Distributed distribution](Image/Distributed%20System/Distributed%20representation%20for%20three%20layers%20model.png)
+![Distributed distribution](../Image/Distributed%20System/Distributed%20representation%20for%20three%20layers%20model.png)
 > The top layer and the bottom layer are the same as [a]
 > Each unit in the middle layer can be activated by graphemic representation fo any one of a whole set of words. 
 > the node in top layer need to be activated when all the input arrive
